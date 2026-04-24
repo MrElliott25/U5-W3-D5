@@ -88,6 +88,11 @@ public class UtenteController {
         return eventoService.findAllEventsByOrganizzatore(autenticato.getId(), pageable);
     }
 
+    @GetMapping("/me")
+    public Utente getOwnProfile(@AuthenticationPrincipal Utente autenticato) {
+        return autenticato;
+    }
+
     @GetMapping("/me/prenotazioni")
     public Page<Prenotazione> findPrenotazioni(@AuthenticationPrincipal Utente utenteAutenticato,
                                                @RequestParam(defaultValue = "0") int page,

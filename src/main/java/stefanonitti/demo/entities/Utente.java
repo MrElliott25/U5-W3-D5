@@ -1,5 +1,7 @@
 package stefanonitti.demo.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +20,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"password", "accountNonExpired", "accountNonLocked", "authorities", "credentialsNonExpired", "enabled"})
 public class Utente implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,6 +37,7 @@ public class Utente implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Ruolo ruolo;
     @OneToMany(mappedBy = "utente")
+    @JsonIgnore
     private List<Prenotazione> prenotazioni;
 
     @Override
