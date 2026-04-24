@@ -1,6 +1,8 @@
 package stefanonitti.demo.services;
 
 import stefanonitti.demo.entities.Utente;
+import stefanonitti.demo.enums.Ruolo;
+import stefanonitti.demo.payloads.UtenteDTO;
 import stefanonitti.demo.repositories.UtenteRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,6 +23,18 @@ public class UtenteService {
 
     public Page<Utente> findAllUsers(Pageable pageable) {
         return utenteRepository.findAll(pageable);
+    }
+
+
+    public Utente saveUser(UtenteDTO body){
+        Utente newUser = new Utente();
+        newUser.setEmail(body.email());
+        newUser.setCognome(body.cognome());
+        newUser.setNome(body.nome());
+        newUser.setRuolo(Ruolo.UTENTE);
+        newUser.setPassword(passwordEncoder.encode(body.password()));
+        newUser.setDataDiNascita(body.dataDiNascita());
+        return this.utenteRepository.save(newUser);
     }
 
     public Utente findById(UUID id) {
