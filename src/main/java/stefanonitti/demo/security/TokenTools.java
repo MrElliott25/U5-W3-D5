@@ -4,6 +4,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import stefanonitti.demo.entities.Utente;
+import stefanonitti.demo.exceptions.UnauthorizedException;
 
 import java.util.Date;
 import java.util.UUID;

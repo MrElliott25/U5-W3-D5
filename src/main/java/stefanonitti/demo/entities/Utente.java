@@ -45,4 +45,5 @@ public class Utente implements UserDetails {
     public String getUsername() {
         return this.getEmail();
     }
+
 }

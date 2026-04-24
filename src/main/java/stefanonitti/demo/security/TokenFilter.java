@@ -10,6 +10,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
+import stefanonitti.demo.entities.Utente;
+import stefanonitti.demo.exceptions.UnauthorizedException;
+import stefanonitti.demo.services.UtenteService;
 
 import java.io.IOException;
 import java.util.UUID;

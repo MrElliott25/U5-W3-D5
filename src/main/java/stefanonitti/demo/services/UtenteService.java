@@ -1,8 +1,13 @@
 package stefanonitti.demo.services;
 
+import org.springframework.data.domain.PageRequest;
+import stefanonitti.demo.entities.Prenotazione;
 import stefanonitti.demo.entities.Utente;
 import stefanonitti.demo.enums.Ruolo;
+import stefanonitti.demo.exceptions.EmailInUseException;
+import stefanonitti.demo.exceptions.NotFoundException;
 import stefanonitti.demo.payloads.UtenteDTO;
+import stefanonitti.demo.repositories.PrenotazioneRepository;
 import stefanonitti.demo.repositories.UtenteRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,8 +18,8 @@ import java.util.UUID;
 
 @Service
 public class UtenteService {
-    private UtenteRepository utenteRepository;
-    private PasswordEncoder passwordEncoder;
+    private final UtenteRepository utenteRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UtenteService(UtenteRepository utenteRepository, PasswordEncoder passwordEncoder) {
         this.utenteRepository = utenteRepository;
@@ -27,6 +32,7 @@ public class UtenteService {
 
 
     public Utente saveUser(UtenteDTO body){
+        if(this.utenteRepository.existsByEmail(body.email())) throw new EmailInUseException("Email già in uso!");
         Utente newUser = new Utente();
         newUser.setEmail(body.email());
         newUser.setCognome(body.cognome());
@@ -39,7 +45,7 @@ public class UtenteService {
 
     public Utente findById(UUID id) {
         return utenteRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Utente con id " + id + " non trovato"));
+                .orElseThrow(() -> new NotFoundException("Utente con id " + id + " non trovato"));
     }
 
     public Utente update(UUID id, Utente utente) {

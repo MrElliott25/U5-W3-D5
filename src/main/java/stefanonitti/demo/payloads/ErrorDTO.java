@@ -1,4 +1,4 @@
-package stefanonitti.demo.exceptions;
+package stefanonitti.demo.payloads;
 
 import java.time.LocalDateTime;
 

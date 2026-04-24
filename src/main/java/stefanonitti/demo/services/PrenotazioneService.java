@@ -1,13 +1,17 @@
 package stefanonitti.demo.services;
 
+import org.springframework.data.domain.PageRequest;
 import stefanonitti.demo.entities.Evento;
 import stefanonitti.demo.entities.Prenotazione;
 import stefanonitti.demo.entities.Utente;
+import stefanonitti.demo.exceptions.NotFoundException;
 import stefanonitti.demo.payloads.PrenotazioneDTO;
 import stefanonitti.demo.repositories.PrenotazioneRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class PrenotazioneService {
@@ -27,7 +31,7 @@ public class PrenotazioneService {
 
     public Prenotazione findById(Long id) {
         return prenotazioneRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Prenotazione non trovata"));
+                .orElseThrow(() -> new NotFoundException("Prenotazione non trovata"));
     }
 
     public Prenotazione createReservation(PrenotazioneDTO body) {
@@ -45,5 +49,11 @@ public class PrenotazioneService {
     public void deleteById(Long id) {
         Prenotazione trovata = this.findById(id);
         prenotazioneRepository.delete(trovata);
+    }
+
+    public Page<Prenotazione> getPrenotazioniByUtente(UUID utenteId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        return prenotazioneRepository.findByUtenteId(utenteId, pageable);
     }
 }

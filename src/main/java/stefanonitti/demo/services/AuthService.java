@@ -1,6 +1,7 @@
 package stefanonitti.demo.services;
 
 import stefanonitti.demo.entities.Utente;
+import stefanonitti.demo.exceptions.UnauthorizedException;
 import stefanonitti.demo.payloads.LoginDTO;
 import stefanonitti.demo.security.TokenTools;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,14 +25,13 @@ public class AuthService {
             Utente utente = this.utenteService.findByEmail(body.email());
 
             if (passwordEncoder.matches(body.password(), utente.getPassword())) {
-                String accessToken = this.tokenTools.generateToken(utente);
-                return accessToken;
+                return this.tokenTools.generateToken(utente);
             } else {
-                throw new RuntimeException("Credenziali errate!");
+                throw new UnauthorizedException("Credenziali errate!");
             }
 
         }catch(Exception ex){
-            throw new RuntimeException("Credenziali errate!");
+            throw new UnauthorizedException("Credenziali errate!");
         }
     }
 }

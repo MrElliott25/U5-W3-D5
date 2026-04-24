@@ -5,8 +5,8 @@ import java.util.List;
 public class ValidationException extends RuntimeException {
     private final List<String> errors;
 
-    public ValidationException(String message, List<String> errors) {
-        super(message);
+    public ValidationException(List<String> errors) {
+        super("Lista errori:");
         this.errors = errors;
     }
 

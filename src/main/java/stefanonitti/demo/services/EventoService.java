@@ -2,6 +2,7 @@ package stefanonitti.demo.services;
 
 import stefanonitti.demo.entities.Evento;
 import stefanonitti.demo.entities.Utente;
+import stefanonitti.demo.exceptions.NotFoundException;
 import stefanonitti.demo.payloads.EventoDTO;
 import stefanonitti.demo.repositories.EventoRepository;
 import org.springframework.data.domain.Page;
@@ -27,7 +28,7 @@ public class EventoService {
 
     public Evento findById(Long id) {
         return eventoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Evento con id " + id + " non trovato"));
+                .orElseThrow(() -> new NotFoundException("Evento con id " + id + " non trovato"));
     }
 
     public Evento createEvent(EventoDTO body) {

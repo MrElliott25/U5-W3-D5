@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import stefanonitti.demo.payloads.ErrorDTO;
+import stefanonitti.demo.payloads.ErrorsListDTO;
 
 import java.time.LocalDateTime;
 
@@ -26,11 +28,6 @@ public class ErrorsHandler {
         return new ErrorDTO(ex.getMessage(), LocalDateTime.now());
     }
 
-    @ExceptionHandler(BadRequestException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorDTO handleBadRequest(BadRequestException ex) {
-        return new ErrorDTO(ex.getMessage(), LocalDateTime.now());
-    }
 
     @ExceptionHandler(EmailInUseException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
